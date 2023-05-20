@@ -1,0 +1,883 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/nhinguyen/Documents/NĂM 3 HK1/Panel data/Final Stata.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}24 Dec 2022, 15:03:51
+
+{com}. 
+. import excel "/Users/nhinguyen/Downloads/data cuối.xlsx", sheet("Trang t�nh1") firstrow
+{res}
+{com}. encode mack, gen(BANK)
+
+. encode nam, gen(NAM)
+{err}not possible with numeric variable
+{txt}{search r(107):r(107);}
+
+{com}. xtset BANK nam
+{res}{txt}{col 8}panel variable:  {res}BANK (unbalanced)
+{txt}{col 9}time variable:  {res}{col 25}nam, 2011 to 2021
+{txt}{col 17}delta:  {res}1 unit
+
+{com}. sum la size llp nim roe car lta eta gdp inf
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 10}la {c |}{res}        319    .1860702    .1872045      .0164     1.9871
+{txt}{space 8}size {c |}{res}        319     8.11128     .519823     7.1214     9.2459
+{txt}{space 9}llp {c |}{res}        319    .0137028    .0052631      .0055      .0414
+{txt}{space 9}nim {c |}{res}        319    .0318959    .0148307          0      .1386
+{txt}{space 9}roe {c |}{res}        319    .0798881    .0665157     -.5496       .261
+{txt}{hline 13}{c +}{hline 57}
+{space 9}car {c |}{res}        319    .1286871    .0774247          0       .995
+{txt}{space 9}lta {c |}{res}        319    .5639329    .1230968      .1448      .7881
+{txt}{space 9}eta {c |}{res}        319    .0890197     .038554       .027      .2383
+{txt}{space 9}gdp {c |}{res}        319    .0585455    .0156472       .026       .072
+{txt}{space 9}inf {c |}{res}        319       .0515    .0481193      .0063      .1868
+
+{com}. pwcorr la size llp nim roe car lta eta gdp inf
+
+             {txt}{c |}       la     size      llp      nim      roe      car      lta
+{hline 13}{c +}{hline 63}
+          la {c |} {res}  1.0000 
+        {txt}size {c |} {res} -0.1855   1.0000 
+         {txt}llp {c |} {res} -0.0249   0.2865   1.0000 
+         {txt}nim {c |} {res} -0.0884   0.0790   0.1355   1.0000 
+         {txt}roe {c |} {res}  0.0978   0.4235   0.1280   0.3963   1.0000 
+         {txt}car {c |} {res}  0.1429  -0.2854  -0.0808   0.0673  -0.1940   1.0000 
+         {txt}lta {c |} {res} -0.1556   0.3514  -0.0517   0.2092   0.1886  -0.0638   1.0000 
+         {txt}eta {c |} {res}  0.1515  -0.6215  -0.0872   0.2881  -0.1294   0.4526  -0.0970 
+         {txt}gdp {c |} {res} -0.0723  -0.1516  -0.1142  -0.0573  -0.1670   0.0755  -0.0010 
+         {txt}inf {c |} {res}  0.1708  -0.2534   0.1770   0.1743   0.1155   0.1117  -0.3141 
+
+             {txt}{c |}      eta      gdp      inf
+{hline 13}{c +}{hline 27}
+         eta {c |} {res}  1.0000 
+         {txt}gdp {c |} {res} -0.0181   1.0000 
+         {txt}inf {c |} {res}  0.2523   0.0876   1.0000 
+
+{com}. reg la size llp nim roe car lta eta gdp inf
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       319
+{txt}{hline 13}{c +}{hline 34}   F(9, 309)       = {res}     5.49
+{txt}       Model {c |} {res} 1.53686374         9  .170762638   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9.60761251       309  .031092597   {txt}R-squared       ={res}    0.1379
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1128
+{txt}       Total {c |} {res} 11.1444762       318  .035045523   {txt}Root MSE        =   {res} .17633
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0736515{col 26}{space 2} .0314653{col 37}{space 1}   -2.34{col 46}{space 3}0.020{col 54}{space 4}-.1355649{col 67}{space 3} -.011738
+{txt}{space 9}llp {c |}{col 14}{res}{space 2} .4361368{col 26}{space 2} 2.086065{col 37}{space 1}    0.21{col 46}{space 3}0.835{col 54}{space 4}-3.668552{col 67}{space 3} 4.540826
+{txt}{space 9}nim {c |}{col 14}{res}{space 2}-2.711325{col 26}{space 2} .8147299{col 37}{space 1}   -3.33{col 46}{space 3}0.001{col 54}{space 4}-4.314445{col 67}{space 3}-1.108205
+{txt}{space 9}roe {c |}{col 14}{res}{space 2} .7982574{col 26}{space 2}  .187252{col 37}{space 1}    4.26{col 46}{space 3}0.000{col 54}{space 4} .4298071{col 67}{space 3} 1.166708
+{txt}{space 9}car {c |}{col 14}{res}{space 2}  .319451{col 26}{space 2} .1461279{col 37}{space 1}    2.19{col 46}{space 3}0.030{col 54}{space 4} .0319194{col 67}{space 3} .6069825
+{txt}{space 9}lta {c |}{col 14}{res}{space 2}-.0791033{col 26}{space 2} .0936609{col 37}{space 1}   -0.84{col 46}{space 3}0.399{col 54}{space 4}-.2633971{col 67}{space 3} .1051905
+{txt}{space 9}eta {c |}{col 14}{res}{space 2} .1710007{col 26}{space 2} .4003606{col 37}{space 1}    0.43{col 46}{space 3}0.670{col 54}{space 4}-.6167772{col 67}{space 3} .9587785
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-1.005159{col 26}{space 2} .6604385{col 37}{space 1}   -1.52{col 46}{space 3}0.129{col 54}{space 4}-2.304685{col 67}{space 3} .2943664
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3458171{col 26}{space 2} .2401237{col 37}{space 1}    1.44{col 46}{space 3}0.151{col 54}{space 4}-.1266673{col 67}{space 3} .8183016
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .8295256{col 26}{space 2} .2606924{col 37}{space 1}    3.18{col 46}{space 3}0.002{col 54}{space 4} .3165688{col 67}{space 3} 1.342482
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. xtreg la size llp nim roe car lta eta gdp inf,fe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       319
+{txt}Group variable: {res}BANK{txt}{col 49}Number of groups{col 67}={col 69}{res}        29
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1461{col 63}{txt}min{col 67}={col 69}{res}        11
+{txt}     between = {res}0.0650{col 63}{txt}avg{col 67}={col 69}{res}      11.0
+{txt}     overall = {res}0.1168{col 63}{txt}max{col 67}={col 69}{res}        11
+
+{txt}{col 49}F({res}9{txt},{res}281{txt}){col 67}={col 70}{res}     5.34
+{txt}corr(u_i, Xb){col 16}= {res}-0.0595{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0167965{col 26}{space 2} .0734189{col 37}{space 1}   -0.23{col 46}{space 3}0.819{col 54}{space 4}-.1613175{col 67}{space 3} .1277244
+{txt}{space 9}llp {c |}{col 14}{res}{space 2}-.1967785{col 26}{space 2} 2.229693{col 37}{space 1}   -0.09{col 46}{space 3}0.930{col 54}{space 4}-4.585799{col 67}{space 3} 4.192242
+{txt}{space 9}nim {c |}{col 14}{res}{space 2}-3.123809{col 26}{space 2} .9818637{col 37}{space 1}   -3.18{col 46}{space 3}0.002{col 54}{space 4}-5.056551{col 67}{space 3}-1.191067
+{txt}{space 9}roe {c |}{col 14}{res}{space 2}  .628487{col 26}{space 2} .1854142{col 37}{space 1}    3.39{col 46}{space 3}0.001{col 54}{space 4} .2635098{col 67}{space 3} .9934642
+{txt}{space 9}car {c |}{col 14}{res}{space 2} .0919221{col 26}{space 2}  .132355{col 37}{space 1}    0.69{col 46}{space 3}0.488{col 54}{space 4}-.1686111{col 67}{space 3} .3524553
+{txt}{space 9}lta {c |}{col 14}{res}{space 2}-.2505626{col 26}{space 2} .1209033{col 37}{space 1}   -2.07{col 46}{space 3}0.039{col 54}{space 4}-.4885538{col 67}{space 3}-.0125715
+{txt}{space 9}eta {c |}{col 14}{res}{space 2} .8180942{col 26}{space 2} .4388646{col 37}{space 1}    1.86{col 46}{space 3}0.063{col 54}{space 4}-.0457853{col 67}{space 3} 1.681974
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2} -.768777{col 26}{space 2} .6414717{col 37}{space 1}   -1.20{col 46}{space 3}0.232{col 54}{space 4}-2.031477{col 67}{space 3} .4939228
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3285156{col 26}{space 2} .2700848{col 37}{space 1}    1.22{col 46}{space 3}0.225{col 54}{space 4}-.2031306{col 67}{space 3} .8601619
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .4591709{col 26}{space 2} .6198687{col 37}{space 1}    0.74{col 46}{space 3}0.459{col 54}{space 4}-.7610048{col 67}{space 3} 1.679347
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res}  .1063993
+     {txt}sigma_e {c |} {res} .15054605
+         {txt}rho {c |} {res} .33311273{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+F test that all u_i=0: F({res}28{txt}, {res}281{txt}) = {res}5.10{col 62}{txt}Prob > F = {res}0.0000
+
+{com}. xtreg la size llp nim roe car lta eta gdp inf,re
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}       319
+{txt}Group variable: {res}BANK                            {txt}Number of groups  = {res}        29
+
+{txt}R-sq:                                           Obs per group:
+     within  = {res}0.1444                                         {txt}min = {res}        11
+{txt}     between = {res}0.0970                                         {txt}avg = {res}      11.0
+{txt}     overall = {res}0.1278                                         {txt}max = {res}        11
+
+                                                {txt}Wald chi2({res}9{txt})      =  {res}    50.15
+{txt}corr(u_i, X)   = {res}0{txt} (assumed)                    Prob > chi2       =     {res}0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0420393{col 26}{space 2} .0429181{col 37}{space 1}   -0.98{col 46}{space 3}0.327{col 54}{space 4}-.1261572{col 67}{space 3} .0420787
+{txt}{space 9}llp {c |}{col 14}{res}{space 2}-.1106018{col 26}{space 2} 2.085026{col 37}{space 1}   -0.05{col 46}{space 3}0.958{col 54}{space 4}-4.197178{col 67}{space 3} 3.975974
+{txt}{space 9}nim {c |}{col 14}{res}{space 2} -2.99358{col 26}{space 2}  .887841{col 37}{space 1}   -3.37{col 46}{space 3}0.001{col 54}{space 4}-4.733716{col 67}{space 3}-1.253443
+{txt}{space 9}roe {c |}{col 14}{res}{space 2} .6752656{col 26}{space 2} .1763344{col 37}{space 1}    3.83{col 46}{space 3}0.000{col 54}{space 4} .3296565{col 67}{space 3} 1.020875
+{txt}{space 9}car {c |}{col 14}{res}{space 2}  .143039{col 26}{space 2} .1310654{col 37}{space 1}    1.09{col 46}{space 3}0.275{col 54}{space 4}-.1138444{col 67}{space 3} .3999224
+{txt}{space 9}lta {c |}{col 14}{res}{space 2}-.1878082{col 26}{space 2} .1073282{col 37}{space 1}   -1.75{col 46}{space 3}0.080{col 54}{space 4}-.3981675{col 67}{space 3} .0225512
+{txt}{space 9}eta {c |}{col 14}{res}{space 2}  .630471{col 26}{space 2}  .407434{col 37}{space 1}    1.55{col 46}{space 3}0.122{col 54}{space 4} -.168085{col 67}{space 3} 1.429027
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.8785366{col 26}{space 2} .5902768{col 37}{space 1}   -1.49{col 46}{space 3}0.137{col 54}{space 4}-2.035458{col 67}{space 3} .2783846
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3255838{col 26}{space 2} .2312922{col 37}{space 1}    1.41{col 46}{space 3}0.159{col 54}{space 4}-.1277406{col 67}{space 3} .7789081
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .6361616{col 26}{space 2} .3595054{col 37}{space 1}    1.77{col 46}{space 3}0.077{col 54}{space 4}-.0684561{col 67}{space 3} 1.340779
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .08836503
+     {txt}sigma_e {c |} {res} .15054605
+         {txt}rho {c |} {res} .25624351{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. xtgls la size llp nim roe car lta eta gdp inf, corr(ar1) panels(h)
+
+{txt}Cross-sectional time-series FGLS regression
+
+Coefficients:  {res}generalized least squares
+{txt}Panels:        {res}heteroskedastic
+{txt}Correlation:   {res}common AR(1) coefficient for all panels{txt}  ({res}0.4614{txt})
+
+Estimated covariances{col 28}= {res}       29{txt}{col 49}Number of obs{col 67}= {res}       319
+{txt}Estimated autocorrelations{col 28}= {res}        1{txt}{col 49}Number of groups{col 67}= {res}        29
+{txt}Estimated coefficients{col 28}= {res}       10{txt}{col 49}Time periods{col 67}=  {res}       11
+{txt}{col 49}Wald chi2({res}9{txt}){col 67}=  {res}   133.41
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0224204{col 26}{space 2} .0138062{col 37}{space 1}   -1.62{col 46}{space 3}0.104{col 54}{space 4}-.0494799{col 67}{space 3} .0046392
+{txt}{space 9}llp {c |}{col 14}{res}{space 2}-.1569143{col 26}{space 2} .7247346{col 37}{space 1}   -0.22{col 46}{space 3}0.829{col 54}{space 4}-1.577368{col 67}{space 3} 1.263539
+{txt}{space 9}nim {c |}{col 14}{res}{space 2}  -.81215{col 26}{space 2} .2638686{col 37}{space 1}   -3.08{col 46}{space 3}0.002{col 54}{space 4}-1.329323{col 67}{space 3}-.2949771
+{txt}{space 9}roe {c |}{col 14}{res}{space 2}  .264705{col 26}{space 2} .0692529{col 37}{space 1}    3.82{col 46}{space 3}0.000{col 54}{space 4} .1289718{col 67}{space 3} .4004383
+{txt}{space 9}car {c |}{col 14}{res}{space 2} .0787161{col 26}{space 2} .0578369{col 37}{space 1}    1.36{col 46}{space 3}0.174{col 54}{space 4}-.0346421{col 67}{space 3} .1920743
+{txt}{space 9}lta {c |}{col 14}{res}{space 2} -.225063{col 26}{space 2} .0406519{col 37}{space 1}   -5.54{col 46}{space 3}0.000{col 54}{space 4}-.3047392{col 67}{space 3}-.1453867
+{txt}{space 9}eta {c |}{col 14}{res}{space 2}-.2524551{col 26}{space 2} .1696287{col 37}{space 1}   -1.49{col 46}{space 3}0.137{col 54}{space 4}-.5849213{col 67}{space 3}  .080011
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.2729235{col 26}{space 2} .2363843{col 37}{space 1}   -1.15{col 46}{space 3}0.248{col 54}{space 4}-.7362282{col 67}{space 3} .1903812
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3772646{col 26}{space 2}   .08353{col 37}{space 1}    4.52{col 46}{space 3}0.000{col 54}{space 4} .2135489{col 67}{space 3} .5409804
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .4972913{col 26}{space 2} .1156646{col 37}{space 1}    4.30{col 46}{space 3}0.000{col 54}{space 4} .2705928{col 67}{space 3} .7239898
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. xtabond2 la size llp nim roe car lta eta gdp inf,gmm(l5.efd) iv(eta gdp inf) sm two
+{err}command {bf}xtabond2{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. search  xtabond2
+
+. xtabond2 la size llp nim roe car lta eta gdp inf,gmm(l5.efd) iv(eta gdp inf) sm two
+{err}command {bf}xtabond2{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. install SJ9-1: st0159
+{err}command {bf}install{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. xtabond2 la size llp nim roe car lta eta gdp inf,gmm(l5.efd) iv(eta gdp inf) sm two
+{res}{txt}Favoring space over speed. To switch, type or click on{stata "mata: mata set matafavor speed, perm": mata: mata set matafavor speed, perm}.
+{err}gmmstyle(l5.efd) invalid.
+{txt}{search r(198):r(198);}
+
+{com}. xtabond2 la l.la size llp nim roe car lta eta gdp inf,gmm(l5.size) iv(eta gdp inf) sm two
+{res}{txt}Favoring space over speed. To switch, type or click on{stata "mata: mata set matafavor speed, perm": mata: mata set matafavor speed, perm}.
+{res}Warning: Two-step estimated covariance matrix of moments is singular.
+{res}  Using a generalized inverse to calculate optimal weighting matrix for two-step estimation.
+{res}  Difference-in-Sargan statistics may be negative.
+
+{txt}Dynamic panel-data estimation, two-step system GMM
+{hline 78}
+Group variable: {res}BANK{txt}{col 49}Number of obs      = {res}      290
+{txt}Time variable : {res}nam{txt}{col 49}Number of groups   = {res}       29
+{txt}Number of instruments = {res}24{col 49}{txt}Obs per group: min = {res}       10
+{txt}F({res}10{txt}, {res}28{txt}){col 15}= {res}     7.81{col 64}{txt}avg = {res}    10.00
+{txt}Prob > F{col 15}={res}     0.000{col 64}{txt}max = {res}       10
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}la {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} -.095129{col 26}{space 2} .1147109{col 37}{space 1}   -0.83{col 46}{space 3}0.414{col 54}{space 4}-.3301036{col 67}{space 3} .1398455
+{txt}{space 12} {c |}
+{space 8}size {c |}{col 14}{res}{space 2}-.0880875{col 26}{space 2} .0443423{col 37}{space 1}   -1.99{col 46}{space 3}0.057{col 54}{space 4}-.1789186{col 67}{space 3} .0027435
+{txt}{space 9}llp {c |}{col 14}{res}{space 2} 1.952885{col 26}{space 2} 2.416713{col 37}{space 1}    0.81{col 46}{space 3}0.426{col 54}{space 4}-2.997528{col 67}{space 3} 6.903298
+{txt}{space 9}nim {c |}{col 14}{res}{space 2}-2.680587{col 26}{space 2} 2.718309{col 37}{space 1}   -0.99{col 46}{space 3}0.333{col 54}{space 4}-8.248792{col 67}{space 3} 2.887617
+{txt}{space 9}roe {c |}{col 14}{res}{space 2} .3605175{col 26}{space 2}  .183668{col 37}{space 1}    1.96{col 46}{space 3}0.060{col 54}{space 4}-.0157095{col 67}{space 3} .7367444
+{txt}{space 9}car {c |}{col 14}{res}{space 2}-.9903645{col 26}{space 2} .3407523{col 37}{space 1}   -2.91{col 46}{space 3}0.007{col 54}{space 4}-1.688364{col 67}{space 3}-.2923651
+{txt}{space 9}lta {c |}{col 14}{res}{space 2}-.1706509{col 26}{space 2} .0921305{col 37}{space 1}   -1.85{col 46}{space 3}0.075{col 54}{space 4}-.3593718{col 67}{space 3}   .01807
+{txt}{space 9}eta {c |}{col 14}{res}{space 2} .5492707{col 26}{space 2} .5075137{col 37}{space 1}    1.08{col 46}{space 3}0.288{col 54}{space 4}-.4903239{col 67}{space 3} 1.588865
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.5160465{col 26}{space 2} .2766784{col 37}{space 1}   -1.87{col 46}{space 3}0.073{col 54}{space 4}-1.082797{col 67}{space 3} .0507034
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .0447518{col 26}{space 2}  .358562{col 37}{space 1}    0.12{col 46}{space 3}0.902{col 54}{space 4}-.6897291{col 67}{space 3} .7792328
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  1.12198{col 26}{space 2} .3983048{col 37}{space 1}    2.82{col 46}{space 3}0.009{col 54}{space 4} .3060893{col 67}{space 3}  1.93787
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+Warning: Uncorrected two-step standard errors are unreliable.
+
+Instruments for first differences equation
+{col 3}Standard
+{com}{col 5}D.(eta gdp inf)
+{col 3}{txt}GMM-type (missing=0, separate instruments for each period unless collapsed)
+{com}{col 5}L(1/.).L5.size
+{txt}Instruments for levels equation
+{col 3}Standard
+{com}{col 5}_cons
+{col 5}eta gdp inf
+{col 3}{txt}GMM-type (missing=0, separate instruments for each period unless collapsed)
+{com}{col 5}D.L5.size
+{txt}{hline 78}
+Arellano-Bond test for AR(1) in first differences:{col 52}z = {res} -0.78{txt}  Pr > z = {res} 0.436
+{txt}Arellano-Bond test for AR(2) in first differences:{col 52}z = {res} -1.84{txt}  Pr > z = {res} 0.066
+{txt}{hline 78}
+Sargan test of overid. restrictions: chi2({res}13{txt}){col 49}={res}  23.07{txt}{col 59}Prob > chi2 = {res} 0.041
+{txt}  (Not robust, but not weakened by many instruments.)
+Hansen test of overid. restrictions: chi2({res}13{txt}){col 49}={res}  13.49{txt}{col 59}Prob > chi2 = {res} 0.411
+{txt}  (Robust, but can be weakened by many instruments.)
+
+Difference-in-Hansen tests of exogeneity of instrument subsets:
+{com}  GMM instruments for levels
+{txt}    Hansen test excluding group:{col 38}chi2({res}8{txt}){col 49}={res}   8.11{txt}{col 59}Prob > chi2 = {res} 0.423
+{txt}    Difference (null H = exogenous):{col 38}chi2({res}5{txt}){col 49}={res}   5.38{txt}{col 59}Prob > chi2 = {res} 0.372
+{com}  iv(eta gdp inf)
+{txt}    Hansen test excluding group:{col 38}chi2({res}10{txt}){col 49}={res}  12.27{txt}{col 59}Prob > chi2 = {res} 0.267
+{txt}    Difference (null H = exogenous):{col 38}chi2({res}3{txt}){col 49}={res}   1.22{txt}{col 59}Prob > chi2 = {res} 0.749
+
+{com}. hausman fe re
+{err}estimation result fe not found
+{txt}{search r(111):r(111);}
+
+{com}. xtreg la size llp nim roe car lta eta gdp inf,fe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       319
+{txt}Group variable: {res}BANK{txt}{col 49}Number of groups{col 67}={col 69}{res}        29
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1461{col 63}{txt}min{col 67}={col 69}{res}        11
+{txt}     between = {res}0.0650{col 63}{txt}avg{col 67}={col 69}{res}      11.0
+{txt}     overall = {res}0.1168{col 63}{txt}max{col 67}={col 69}{res}        11
+
+{txt}{col 49}F({res}9{txt},{res}281{txt}){col 67}={col 70}{res}     5.34
+{txt}corr(u_i, Xb){col 16}= {res}-0.0595{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0167965{col 26}{space 2} .0734189{col 37}{space 1}   -0.23{col 46}{space 3}0.819{col 54}{space 4}-.1613175{col 67}{space 3} .1277244
+{txt}{space 9}llp {c |}{col 14}{res}{space 2}-.1967785{col 26}{space 2} 2.229693{col 37}{space 1}   -0.09{col 46}{space 3}0.930{col 54}{space 4}-4.585799{col 67}{space 3} 4.192242
+{txt}{space 9}nim {c |}{col 14}{res}{space 2}-3.123809{col 26}{space 2} .9818637{col 37}{space 1}   -3.18{col 46}{space 3}0.002{col 54}{space 4}-5.056551{col 67}{space 3}-1.191067
+{txt}{space 9}roe {c |}{col 14}{res}{space 2}  .628487{col 26}{space 2} .1854142{col 37}{space 1}    3.39{col 46}{space 3}0.001{col 54}{space 4} .2635098{col 67}{space 3} .9934642
+{txt}{space 9}car {c |}{col 14}{res}{space 2} .0919221{col 26}{space 2}  .132355{col 37}{space 1}    0.69{col 46}{space 3}0.488{col 54}{space 4}-.1686111{col 67}{space 3} .3524553
+{txt}{space 9}lta {c |}{col 14}{res}{space 2}-.2505626{col 26}{space 2} .1209033{col 37}{space 1}   -2.07{col 46}{space 3}0.039{col 54}{space 4}-.4885538{col 67}{space 3}-.0125715
+{txt}{space 9}eta {c |}{col 14}{res}{space 2} .8180942{col 26}{space 2} .4388646{col 37}{space 1}    1.86{col 46}{space 3}0.063{col 54}{space 4}-.0457853{col 67}{space 3} 1.681974
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2} -.768777{col 26}{space 2} .6414717{col 37}{space 1}   -1.20{col 46}{space 3}0.232{col 54}{space 4}-2.031477{col 67}{space 3} .4939228
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3285156{col 26}{space 2} .2700848{col 37}{space 1}    1.22{col 46}{space 3}0.225{col 54}{space 4}-.2031306{col 67}{space 3} .8601619
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .4591709{col 26}{space 2} .6198687{col 37}{space 1}    0.74{col 46}{space 3}0.459{col 54}{space 4}-.7610048{col 67}{space 3} 1.679347
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res}  .1063993
+     {txt}sigma_e {c |} {res} .15054605
+         {txt}rho {c |} {res} .33311273{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+F test that all u_i=0: F({res}28{txt}, {res}281{txt}) = {res}5.10{col 62}{txt}Prob > F = {res}0.0000
+
+{com}. estimate store fe
+
+. xtreg la size llp nim roe car lta eta gdp inf,re
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}       319
+{txt}Group variable: {res}BANK                            {txt}Number of groups  = {res}        29
+
+{txt}R-sq:                                           Obs per group:
+     within  = {res}0.1444                                         {txt}min = {res}        11
+{txt}     between = {res}0.0970                                         {txt}avg = {res}      11.0
+{txt}     overall = {res}0.1278                                         {txt}max = {res}        11
+
+                                                {txt}Wald chi2({res}9{txt})      =  {res}    50.15
+{txt}corr(u_i, X)   = {res}0{txt} (assumed)                    Prob > chi2       =     {res}0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0420393{col 26}{space 2} .0429181{col 37}{space 1}   -0.98{col 46}{space 3}0.327{col 54}{space 4}-.1261572{col 67}{space 3} .0420787
+{txt}{space 9}llp {c |}{col 14}{res}{space 2}-.1106018{col 26}{space 2} 2.085026{col 37}{space 1}   -0.05{col 46}{space 3}0.958{col 54}{space 4}-4.197178{col 67}{space 3} 3.975974
+{txt}{space 9}nim {c |}{col 14}{res}{space 2} -2.99358{col 26}{space 2}  .887841{col 37}{space 1}   -3.37{col 46}{space 3}0.001{col 54}{space 4}-4.733716{col 67}{space 3}-1.253443
+{txt}{space 9}roe {c |}{col 14}{res}{space 2} .6752656{col 26}{space 2} .1763344{col 37}{space 1}    3.83{col 46}{space 3}0.000{col 54}{space 4} .3296565{col 67}{space 3} 1.020875
+{txt}{space 9}car {c |}{col 14}{res}{space 2}  .143039{col 26}{space 2} .1310654{col 37}{space 1}    1.09{col 46}{space 3}0.275{col 54}{space 4}-.1138444{col 67}{space 3} .3999224
+{txt}{space 9}lta {c |}{col 14}{res}{space 2}-.1878082{col 26}{space 2} .1073282{col 37}{space 1}   -1.75{col 46}{space 3}0.080{col 54}{space 4}-.3981675{col 67}{space 3} .0225512
+{txt}{space 9}eta {c |}{col 14}{res}{space 2}  .630471{col 26}{space 2}  .407434{col 37}{space 1}    1.55{col 46}{space 3}0.122{col 54}{space 4} -.168085{col 67}{space 3} 1.429027
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.8785366{col 26}{space 2} .5902768{col 37}{space 1}   -1.49{col 46}{space 3}0.137{col 54}{space 4}-2.035458{col 67}{space 3} .2783846
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3255838{col 26}{space 2} .2312922{col 37}{space 1}    1.41{col 46}{space 3}0.159{col 54}{space 4}-.1277406{col 67}{space 3} .7789081
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .6361616{col 26}{space 2} .3595054{col 37}{space 1}    1.77{col 46}{space 3}0.077{col 54}{space 4}-.0684561{col 67}{space 3} 1.340779
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .08836503
+     {txt}sigma_e {c |} {res} .15054605
+         {txt}rho {c |} {res} .25624351{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. estimate store re
+
+. hausman fe re
+
+{txt}{col 18}{hline 4} Coefficients {hline 4}
+{col 14}{c |}{col 21}(b){col 34}(B){col 49}(b-B){col 59}sqrt(diag(V_b-V_B))
+{col 14}{c |}{col 17}     fe     {col 30}     re     {col 46}Difference{col 66}S.E.
+{hline 13}{c +}{hline 64}
+{space 8}size {c |}{res}{col 18}-.0167965{col 31}-.0420393{col 47} .0252427{col 63} .0595683
+{txt}{space 9}llp {c |}{res}{col 18}-.1967785{col 31}-.1106018{col 47}-.0861767{col 63} .7900602
+{txt}{space 9}nim {c |}{res}{col 18}-3.123809{col 31} -2.99358{col 47}-.1302293{col 63} .4192788
+{txt}{space 9}roe {c |}{res}{col 18}  .628487{col 31} .6752656{col 47}-.0467786{col 63} .0573115
+{txt}{space 9}car {c |}{res}{col 18} .0919221{col 31}  .143039{col 47}-.0511169{col 63} .0184315
+{txt}{space 9}lta {c |}{res}{col 18}-.2505626{col 31}-.1878082{col 47}-.0627545{col 63} .0556621
+{txt}{space 9}eta {c |}{res}{col 18} .8180942{col 31}  .630471{col 47} .1876232{col 63}  .163094
+{txt}{space 9}gdp {c |}{res}{col 18} -.768777{col 31}-.8785366{col 47} .1097596{col 63}  .251116
+{txt}{space 9}inf {c |}{res}{col 18} .3285156{col 31} .3255838{col 47} .0029319{col 63} .1394622
+{txt}{hline 13}{c BT}{hline 64}
+{ralign 78:b = consistent under Ho and Ha; obtained from xtreg}
+{ralign 78:B = inconsistent under Ha, efficient under Ho; obtained from xtreg}
+
+    Test:  Ho:  difference in coefficients not systematic
+
+{ralign 25:chi2({res:9})} = (b-B)'[(V_b-V_B)^(-1)](b-B)
+{col 27}=  {res}     18.85
+{txt}{col 17}Prob>chi2 =  {res}    0.0265
+{txt}{col 17}(V_b-V_B is not positive definite)
+
+{com}. vif
+{err}not appropriate after regress, nocons;
+use option uncentered to get uncentered VIFs
+{txt}{search r(301):r(301);}
+
+{com}. reg la la(1/7).la
+{err}coding operators not allowed
+{txt}{search r(198):r(198);}
+
+{com}. xtabond2 la l.la size llp nim roe car lta eta gdp inf,gmm(l5.car) iv(inf) sm two
+{res}{txt}Favoring space over speed. To switch, type or click on{stata "mata: mata set matafavor speed, perm": mata: mata set matafavor speed, perm}.
+{res}Warning: Two-step estimated covariance matrix of moments is singular.
+{res}  Using a generalized inverse to calculate optimal weighting matrix for two-step estimation.
+{res}  Difference-in-Sargan statistics may be negative.
+
+{txt}Dynamic panel-data estimation, two-step system GMM
+{hline 78}
+Group variable: {res}BANK{txt}{col 49}Number of obs      = {res}      290
+{txt}Time variable : {res}nam{txt}{col 49}Number of groups   = {res}       29
+{txt}Number of instruments = {res}22{col 49}{txt}Obs per group: min = {res}       10
+{txt}F({res}10{txt}, {res}28{txt}){col 15}= {res}    36.45{col 64}{txt}avg = {res}    10.00
+{txt}Prob > F{col 15}={res}     0.000{col 64}{txt}max = {res}       10
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}la {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}   .21912{col 26}{space 2} .1938752{col 37}{space 1}    1.13{col 46}{space 3}0.268{col 54}{space 4}-.1780154{col 67}{space 3} .6162554
+{txt}{space 12} {c |}
+{space 8}size {c |}{col 14}{res}{space 2}-.1790634{col 26}{space 2} .0573914{col 37}{space 1}   -3.12{col 46}{space 3}0.004{col 54}{space 4}-.2966244{col 67}{space 3}-.0615024
+{txt}{space 9}llp {c |}{col 14}{res}{space 2} 3.618941{col 26}{space 2} 1.374768{col 37}{space 1}    2.63{col 46}{space 3}0.014{col 54}{space 4} .8028556{col 67}{space 3} 6.435026
+{txt}{space 9}nim {c |}{col 14}{res}{space 2} 1.312595{col 26}{space 2} 1.504628{col 37}{space 1}    0.87{col 46}{space 3}0.390{col 54}{space 4}-1.769496{col 67}{space 3} 4.394685
+{txt}{space 9}roe {c |}{col 14}{res}{space 2} 1.212846{col 26}{space 2} .3143138{col 37}{space 1}    3.86{col 46}{space 3}0.001{col 54}{space 4} .5690031{col 67}{space 3} 1.856688
+{txt}{space 9}car {c |}{col 14}{res}{space 2}-.1625967{col 26}{space 2} .3391044{col 37}{space 1}   -0.48{col 46}{space 3}0.635{col 54}{space 4}-.8572205{col 67}{space 3} .5320272
+{txt}{space 9}lta {c |}{col 14}{res}{space 2} -.259049{col 26}{space 2} .1668435{col 37}{space 1}   -1.55{col 46}{space 3}0.132{col 54}{space 4}-.6008125{col 67}{space 3} .0827145
+{txt}{space 9}eta {c |}{col 14}{res}{space 2}-1.207283{col 26}{space 2} .8589087{col 37}{space 1}   -1.41{col 46}{space 3}0.171{col 54}{space 4}-2.966678{col 67}{space 3} .5521111
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.8587032{col 26}{space 2}  .375144{col 37}{space 1}   -2.29{col 46}{space 3}0.030{col 54}{space 4}-1.627151{col 67}{space 3}-.0902556
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .5006441{col 26}{space 2} .3994429{col 37}{space 1}    1.25{col 46}{space 3}0.220{col 54}{space 4}-.3175777{col 67}{space 3} 1.318866
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.717767{col 26}{space 2} .4867774{col 37}{space 1}    3.53{col 46}{space 3}0.001{col 54}{space 4} .7206493{col 67}{space 3} 2.714886
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+Warning: Uncorrected two-step standard errors are unreliable.
+
+Instruments for first differences equation
+{col 3}Standard
+{com}{col 5}D.(inf)
+{col 3}{txt}GMM-type (missing=0, separate instruments for each period unless collapsed)
+{com}{col 5}L(1/.).L5.car
+{txt}Instruments for levels equation
+{col 3}Standard
+{com}{col 5}_cons
+{col 5}inf
+{col 3}{txt}GMM-type (missing=0, separate instruments for each period unless collapsed)
+{com}{col 5}D.L5.car
+{txt}{hline 78}
+Arellano-Bond test for AR(1) in first differences:{col 52}z = {res} -0.88{txt}  Pr > z = {res} 0.381
+{txt}Arellano-Bond test for AR(2) in first differences:{col 52}z = {res}  0.74{txt}  Pr > z = {res} 0.461
+{txt}{hline 78}
+Sargan test of overid. restrictions: chi2({res}11{txt}){col 49}={res}   3.56{txt}{col 59}Prob > chi2 = {res} 0.981
+{txt}  (Not robust, but not weakened by many instruments.)
+Hansen test of overid. restrictions: chi2({res}11{txt}){col 49}={res}  12.34{txt}{col 59}Prob > chi2 = {res} 0.338
+{txt}  (Robust, but can be weakened by many instruments.)
+
+Difference-in-Hansen tests of exogeneity of instrument subsets:
+{com}  GMM instruments for levels
+{txt}    Hansen test excluding group:{col 38}chi2({res}6{txt}){col 49}={res}   5.77{txt}{col 59}Prob > chi2 = {res} 0.449
+{txt}    Difference (null H = exogenous):{col 38}chi2({res}5{txt}){col 49}={res}   6.57{txt}{col 59}Prob > chi2 = {res} 0.254
+{com}  iv(inf)
+{txt}    Hansen test excluding group:{col 38}chi2({res}10{txt}){col 49}={res}   9.89{txt}{col 59}Prob > chi2 = {res} 0.450
+{txt}    Difference (null H = exogenous):{col 38}chi2({res}1{txt}){col 49}={res}   2.46{txt}{col 59}Prob > chi2 = {res} 0.117
+
+{com}. reg la size llp nim roe car lta eta gdp inf
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       319
+{txt}{hline 13}{c +}{hline 34}   F(9, 309)       = {res}     5.49
+{txt}       Model {c |} {res} 1.53686374         9  .170762638   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9.60761251       309  .031092597   {txt}R-squared       ={res}    0.1379
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1128
+{txt}       Total {c |} {res} 11.1444762       318  .035045523   {txt}Root MSE        =   {res} .17633
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0736515{col 26}{space 2} .0314653{col 37}{space 1}   -2.34{col 46}{space 3}0.020{col 54}{space 4}-.1355649{col 67}{space 3} -.011738
+{txt}{space 9}llp {c |}{col 14}{res}{space 2} .4361368{col 26}{space 2} 2.086065{col 37}{space 1}    0.21{col 46}{space 3}0.835{col 54}{space 4}-3.668552{col 67}{space 3} 4.540826
+{txt}{space 9}nim {c |}{col 14}{res}{space 2}-2.711325{col 26}{space 2} .8147299{col 37}{space 1}   -3.33{col 46}{space 3}0.001{col 54}{space 4}-4.314445{col 67}{space 3}-1.108205
+{txt}{space 9}roe {c |}{col 14}{res}{space 2} .7982574{col 26}{space 2}  .187252{col 37}{space 1}    4.26{col 46}{space 3}0.000{col 54}{space 4} .4298071{col 67}{space 3} 1.166708
+{txt}{space 9}car {c |}{col 14}{res}{space 2}  .319451{col 26}{space 2} .1461279{col 37}{space 1}    2.19{col 46}{space 3}0.030{col 54}{space 4} .0319194{col 67}{space 3} .6069825
+{txt}{space 9}lta {c |}{col 14}{res}{space 2}-.0791033{col 26}{space 2} .0936609{col 37}{space 1}   -0.84{col 46}{space 3}0.399{col 54}{space 4}-.2633971{col 67}{space 3} .1051905
+{txt}{space 9}eta {c |}{col 14}{res}{space 2} .1710007{col 26}{space 2} .4003606{col 37}{space 1}    0.43{col 46}{space 3}0.670{col 54}{space 4}-.6167772{col 67}{space 3} .9587785
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-1.005159{col 26}{space 2} .6604385{col 37}{space 1}   -1.52{col 46}{space 3}0.129{col 54}{space 4}-2.304685{col 67}{space 3} .2943664
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3458171{col 26}{space 2} .2401237{col 37}{space 1}    1.44{col 46}{space 3}0.151{col 54}{space 4}-.1266673{col 67}{space 3} .8183016
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .8295256{col 26}{space 2} .2606924{col 37}{space 1}    3.18{col 46}{space 3}0.002{col 54}{space 4} .3165688{col 67}{space 3} 1.342482
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. vif
+
+{txt}    Variable {c |}       VIF       1/VIF  
+{hline 13}{c +}{hline 22}
+{space 8}size {c |} {res}     2.74    0.365472
+{txt}{space 9}eta {c |} {res}     2.44    0.410382
+{txt}{space 9}roe {c |} {res}     1.59    0.630274
+{txt}{space 9}nim {c |} {res}     1.49    0.669702
+{txt}{space 9}inf {c |} {res}     1.37    0.732355
+{txt}{space 9}lta {c |} {res}     1.36    0.735563
+{txt}{space 9}car {c |} {res}     1.31    0.763844
+{txt}{space 9}llp {c |} {res}     1.23    0.811135
+{txt}{space 9}gdp {c |} {res}     1.09    0.915575
+{txt}{hline 13}{c +}{hline 22}
+    Mean VIF {c |} {res}     1.62
+
+{com}. estat hettest
+
+{txt}Breusch-Pagan / Cook-Weisberg test for heteroskedasticity 
+         Ho: Constant variance
+{p 9 20}Variables: fitted values of la
+
+{col 10}chi2({res}1{txt}){col 23}={res}   477.39
+{txt}{col 10}Prob > chi2{col 23}={res}   0.0000
+
+{com}. reg la la(1/7).la
+{err}coding operators not allowed
+{txt}{search r(198):r(198);}
+
+{com}. reg la l(1/7).la
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       116
+{txt}{hline 13}{c +}{hline 34}   F(7, 108)       = {res}     4.90
+{txt}       Model {c |} {res}   .2443648         7  .034909257   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} .769346732       108  .007123581   {txt}R-squared       ={res}    0.2411
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1919
+{txt}       Total {c |} {res} 1.01371153       115  .008814883   {txt}Root MSE        =   {res}  .0844
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}la {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .0984857{col 26}{space 2} .1028316{col 37}{space 1}    0.96{col 46}{space 3}0.340{col 54}{space 4}-.1053445{col 67}{space 3} .3023158
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .4028042{col 26}{space 2} .2347785{col 37}{space 1}    1.72{col 46}{space 3}0.089{col 54}{space 4}-.0625674{col 67}{space 3} .8681758
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1310429{col 26}{space 2} .2232217{col 37}{space 1}    0.59{col 46}{space 3}0.558{col 54}{space 4}-.3114212{col 67}{space 3} .5735069
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0554947{col 26}{space 2} .0963394{col 37}{space 1}    0.58{col 46}{space 3}0.566{col 54}{space 4}-.1354666{col 67}{space 3} .2464561
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}  .000777{col 26}{space 2} .0848803{col 37}{space 1}    0.01{col 46}{space 3}0.993{col 54}{space 4}-.1674704{col 67}{space 3} .1690244
+{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.0500567{col 26}{space 2} .0776183{col 37}{space 1}   -0.64{col 46}{space 3}0.520{col 54}{space 4}-.2039097{col 67}{space 3} .1037962
+{txt}{space 9}L7. {c |}{col 14}{res}{space 2} .0952321{col 26}{space 2}  .050886{col 37}{space 1}    1.87{col 46}{space 3}0.064{col 54}{space 4}-.0056327{col 67}{space 3} .1960969
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .0539161{col 26}{space 2} .0223919{col 37}{space 1}    2.41{col 46}{space 3}0.018{col 54}{space 4} .0095314{col 67}{space 3} .0983007
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. reg size l(1/7).size
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       116
+{txt}{hline 13}{c +}{hline 34}   F(7, 108)       = {res}  3302.24
+{txt}       Model {c |} {res} 26.9667425         7  3.85239179   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .125992831       108    .0011666   {txt}R-squared       ={res}    0.9953
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9950
+{txt}       Total {c |} {res} 27.0927354       115  .235589003   {txt}Root MSE        =   {res} .03416
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        size{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} 1.363795{col 26}{space 2} .1012801{col 37}{space 1}   13.47{col 46}{space 3}0.000{col 54}{space 4}  1.16304{col 67}{space 3}  1.56455
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.2128798{col 26}{space 2}  .147535{col 37}{space 1}   -1.44{col 46}{space 3}0.152{col 54}{space 4}-.5053199{col 67}{space 3} .0795602
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.1283783{col 26}{space 2} .1365698{col 37}{space 1}   -0.94{col 46}{space 3}0.349{col 54}{space 4}-.3990833{col 67}{space 3} .1423267
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .1731019{col 26}{space 2} .1251806{col 37}{space 1}    1.38{col 46}{space 3}0.170{col 54}{space 4}-.0750277{col 67}{space 3} .4212315
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}  -.33202{col 26}{space 2}  .116564{col 37}{space 1}   -2.85{col 46}{space 3}0.005{col 54}{space 4}  -.56307{col 67}{space 3}  -.10097
+{txt}{space 9}L6. {c |}{col 14}{res}{space 2} .1842993{col 26}{space 2}  .082191{col 37}{space 1}    2.24{col 46}{space 3}0.027{col 54}{space 4} .0213825{col 67}{space 3}  .347216
+{txt}{space 9}L7. {c |}{col 14}{res}{space 2}-.0500249{col 26}{space 2} .0433748{col 37}{space 1}   -1.15{col 46}{space 3}0.251{col 54}{space 4}-.1360013{col 67}{space 3} .0359516
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .0329783{col 26}{space 2}  .055237{col 37}{space 1}    0.60{col 46}{space 3}0.552{col 54}{space 4}-.0765111{col 67}{space 3} .1424677
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. reg llp l(1/7).llp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       116
+{txt}{hline 13}{c +}{hline 34}   F(7, 108)       = {res}    10.80
+{txt}       Model {c |} {res} .000860974         7  .000122996   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .001230248       108  .000011391   {txt}R-squared       ={res}    0.4117
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.3736
+{txt}       Total {c |} {res} .002091221       115  .000018185   {txt}Root MSE        =   {res} .00338
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         llp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}llp {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .6522848{col 26}{space 2} .1179945{col 37}{space 1}    5.53{col 46}{space 3}0.000{col 54}{space 4} .4183993{col 67}{space 3} .8861703
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.1050249{col 26}{space 2} .1459954{col 37}{space 1}   -0.72{col 46}{space 3}0.473{col 54}{space 4} -.394413{col 67}{space 3} .1843632
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .3408976{col 26}{space 2} .1429141{col 37}{space 1}    2.39{col 46}{space 3}0.019{col 54}{space 4} .0576169{col 67}{space 3} .6241782
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0602152{col 26}{space 2} .1382119{col 37}{space 1}    0.44{col 46}{space 3}0.664{col 54}{space 4}-.2137446{col 67}{space 3} .3341751
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0648194{col 26}{space 2} .1311257{col 37}{space 1}   -0.49{col 46}{space 3}0.622{col 54}{space 4}-.3247332{col 67}{space 3} .1950945
+{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.0101686{col 26}{space 2} .1039287{col 37}{space 1}   -0.10{col 46}{space 3}0.922{col 54}{space 4}-.2161733{col 67}{space 3} .1958361
+{txt}{space 9}L7. {c |}{col 14}{res}{space 2} .0469752{col 26}{space 2} .0685013{col 37}{space 1}    0.69{col 46}{space 3}0.494{col 54}{space 4}-.0888063{col 67}{space 3} .1827566
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .0015987{col 26}{space 2} .0014525{col 37}{space 1}    1.10{col 46}{space 3}0.273{col 54}{space 4}-.0012803{col 67}{space 3} .0044778
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. reg nim l(1/7).nim
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       116
+{txt}{hline 13}{c +}{hline 34}   F(7, 108)       = {res}    36.07
+{txt}       Model {c |} {res}  .02586217         7  .003694596   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .011062242       108  .000102428   {txt}R-squared       ={res}    0.7004
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6810
+{txt}       Total {c |} {res} .036924412       115  .000321082   {txt}Root MSE        =   {res} .01012
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         nim{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}nim {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .2145004{col 26}{space 2} .1961295{col 37}{space 1}    1.09{col 46}{space 3}0.277{col 54}{space 4}-.1742623{col 67}{space 3} .6032632
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .6762157{col 26}{space 2} .2619006{col 37}{space 1}    2.58{col 46}{space 3}0.011{col 54}{space 4} .1570832{col 67}{space 3} 1.195348
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .3568879{col 26}{space 2} .2469102{col 37}{space 1}    1.45{col 46}{space 3}0.151{col 54}{space 4} -.132531{col 67}{space 3} .8463068
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.3227874{col 26}{space 2} .2184068{col 37}{space 1}   -1.48{col 46}{space 3}0.142{col 54}{space 4}-.7557075{col 67}{space 3} .1101327
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}  .161799{col 26}{space 2} .1887721{col 37}{space 1}    0.86{col 46}{space 3}0.393{col 54}{space 4}  -.21238{col 67}{space 3}  .535978
+{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.1478092{col 26}{space 2} .1597169{col 37}{space 1}   -0.93{col 46}{space 3}0.357{col 54}{space 4}-.4643958{col 67}{space 3} .1687774
+{txt}{space 9}L7. {c |}{col 14}{res}{space 2}-.0870952{col 26}{space 2} .1021826{col 37}{space 1}   -0.85{col 46}{space 3}0.396{col 54}{space 4}-.2896388{col 67}{space 3} .1154484
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .0058642{col 26}{space 2} .0034481{col 37}{space 1}    1.70{col 46}{space 3}0.092{col 54}{space 4}-.0009704{col 67}{space 3} .0126988
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. reg roe l(1/7).roe
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       116
+{txt}{hline 13}{c +}{hline 34}   F(7, 108)       = {res}    63.49
+{txt}       Model {c |} {res} .353303603         7  .050471943   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .085856808       108   .00079497   {txt}R-squared       ={res}    0.8045
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7918
+{txt}       Total {c |} {res} .439160411       115  .003818786   {txt}Root MSE        =   {res}  .0282
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         roe{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}roe {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}  1.01374{col 26}{space 2} .1018931{col 37}{space 1}    9.95{col 46}{space 3}0.000{col 54}{space 4} .8117699{col 67}{space 3} 1.215709
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.2165313{col 26}{space 2}  .147712{col 37}{space 1}   -1.47{col 46}{space 3}0.146{col 54}{space 4}-.5093221{col 67}{space 3} .0762595
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1033161{col 26}{space 2} .1642836{col 37}{space 1}    0.63{col 46}{space 3}0.531{col 54}{space 4}-.2223225{col 67}{space 3} .4289547
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0497906{col 26}{space 2} .1547087{col 37}{space 1}    0.32{col 46}{space 3}0.748{col 54}{space 4}-.2568688{col 67}{space 3}   .35645
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0013561{col 26}{space 2} .1141704{col 37}{space 1}    0.01{col 46}{space 3}0.991{col 54}{space 4}-.2249495{col 67}{space 3} .2276617
+{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.0061604{col 26}{space 2} .0415827{col 37}{space 1}   -0.15{col 46}{space 3}0.883{col 54}{space 4}-.0885845{col 67}{space 3} .0762637
+{txt}{space 9}L7. {c |}{col 14}{res}{space 2}-.0038317{col 26}{space 2} .0350196{col 37}{space 1}   -0.11{col 46}{space 3}0.913{col 54}{space 4}-.0732466{col 67}{space 3} .0655832
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .0153475{col 26}{space 2} .0054513{col 37}{space 1}    2.82{col 46}{space 3}0.006{col 54}{space 4} .0045421{col 67}{space 3} .0261528
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. reg car l(1/7).car
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       116
+{txt}{hline 13}{c +}{hline 34}   F(7, 108)       = {res}    45.24
+{txt}       Model {c |} {res} .111410895         7  .015915842   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  .03799659       108   .00035182   {txt}R-squared       ={res}    0.7457
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7292
+{txt}       Total {c |} {res} .149407485       115  .001299196   {txt}Root MSE        =   {res} .01876
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         car{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}car {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .5068011{col 26}{space 2} .0911916{col 37}{space 1}    5.56{col 46}{space 3}0.000{col 54}{space 4} .3260436{col 67}{space 3} .6875587
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .3383688{col 26}{space 2} .0878012{col 37}{space 1}    3.85{col 46}{space 3}0.000{col 54}{space 4} .1643316{col 67}{space 3}  .512406
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} -.004116{col 26}{space 2} .0213931{col 37}{space 1}   -0.19{col 46}{space 3}0.848{col 54}{space 4}-.0465208{col 67}{space 3} .0382889
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0990476{col 26}{space 2} .0188074{col 37}{space 1}   -5.27{col 46}{space 3}0.000{col 54}{space 4} -.136327{col 67}{space 3}-.0617681
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .1445127{col 26}{space 2} .0203169{col 37}{space 1}    7.11{col 46}{space 3}0.000{col 54}{space 4}  .104241{col 67}{space 3} .1847844
+{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.0717462{col 26}{space 2} .0219769{col 37}{space 1}   -3.26{col 46}{space 3}0.001{col 54}{space 4}-.1153083{col 67}{space 3}-.0281841
+{txt}{space 9}L7. {c |}{col 14}{res}{space 2}-.0008695{col 26}{space 2} .0235436{col 37}{space 1}   -0.04{col 46}{space 3}0.971{col 54}{space 4} -.047537{col 67}{space 3} .0457979
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .0165499{col 26}{space 2} .0074406{col 37}{space 1}    2.22{col 46}{space 3}0.028{col 54}{space 4} .0018012{col 67}{space 3} .0312985
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. reg lta l(1/7).lta
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       116
+{txt}{hline 13}{c +}{hline 34}   F(7, 108)       = {res}    10.08
+{txt}       Model {c |} {res} .498288388         7  .071184055   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .762435938       108  .007059592   {txt}R-squared       ={res}    0.3952
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.3560
+{txt}       Total {c |} {res} 1.26072433       115   .01096282   {txt}Root MSE        =   {res} .08402
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         lta{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}lta {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .1429784{col 26}{space 2} .1026321{col 37}{space 1}    1.39{col 46}{space 3}0.166{col 54}{space 4}-.0604561{col 67}{space 3}  .346413
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .5376613{col 26}{space 2} .2360707{col 37}{space 1}    2.28{col 46}{space 3}0.025{col 54}{space 4} .0697283{col 67}{space 3} 1.005594
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0438811{col 26}{space 2} .2820556{col 37}{space 1}   -0.16{col 46}{space 3}0.877{col 54}{space 4}-.6029643{col 67}{space 3} .5152021
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .3271165{col 26}{space 2} .2666923{col 37}{space 1}    1.23{col 46}{space 3}0.223{col 54}{space 4} -.201514{col 67}{space 3}  .855747
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} -.298274{col 26}{space 2} .2362821{col 37}{space 1}   -1.26{col 46}{space 3}0.210{col 54}{space 4} -.766626{col 67}{space 3} .1700781
+{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.1353819{col 26}{space 2} .1982922{col 37}{space 1}   -0.68{col 46}{space 3}0.496{col 54}{space 4}-.5284315{col 67}{space 3} .2576677
+{txt}{space 9}L7. {c |}{col 14}{res}{space 2} .1640123{col 26}{space 2} .1284616{col 37}{space 1}    1.28{col 46}{space 3}0.204{col 54}{space 4}-.0906209{col 67}{space 3} .4186454
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .1831929{col 26}{space 2} .0528741{col 37}{space 1}    3.46{col 46}{space 3}0.001{col 54}{space 4} .0783872{col 67}{space 3} .2879985
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. reg eta l(1/7).eta
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       116
+{txt}{hline 13}{c +}{hline 34}   F(7, 108)       = {res}   184.71
+{txt}       Model {c |} {res}  .10129354         7  .014470506   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .008461097       108  .000078343   {txt}R-squared       ={res}    0.9229
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9179
+{txt}       Total {c |} {res} .109754638       115  .000954388   {txt}Root MSE        =   {res} .00885
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         eta{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}eta {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} 1.204061{col 26}{space 2} .0826593{col 37}{space 1}   14.57{col 46}{space 3}0.000{col 54}{space 4} 1.040216{col 67}{space 3} 1.367906
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0815048{col 26}{space 2} .1200514{col 37}{space 1}   -0.68{col 46}{space 3}0.499{col 54}{space 4}-.3194674{col 67}{space 3} .1564579
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.2554759{col 26}{space 2}  .113797{col 37}{space 1}   -2.25{col 46}{space 3}0.027{col 54}{space 4}-.4810413{col 67}{space 3}-.0299105
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .2421414{col 26}{space 2} .1191428{col 37}{space 1}    2.03{col 46}{space 3}0.045{col 54}{space 4} .0059797{col 67}{space 3} .4783032
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.1323831{col 26}{space 2} .1061279{col 37}{space 1}   -1.25{col 46}{space 3}0.215{col 54}{space 4} -.342747{col 67}{space 3} .0779809
+{txt}{space 9}L6. {c |}{col 14}{res}{space 2} .0804169{col 26}{space 2} .0556187{col 37}{space 1}    1.45{col 46}{space 3}0.151{col 54}{space 4} -.029829{col 67}{space 3} .1906628
+{txt}{space 9}L7. {c |}{col 14}{res}{space 2}-.0949051{col 26}{space 2} .0310543{col 37}{space 1}   -3.06{col 46}{space 3}0.003{col 54}{space 4}  -.15646{col 67}{space 3}-.0333502
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .0070181{col 26}{space 2} .0027083{col 37}{space 1}    2.59{col 46}{space 3}0.011{col 54}{space 4} .0016498{col 67}{space 3} .0123864
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. xtserial la size llp nim roe car lta eta gdp inf
+{err}command {bf}xtserial{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. search xtserial
+
+.  xtserial la size llp nim roe car lta eta gdp inf
+
+{txt}Wooldridge test for autocorrelation in panel data
+H0: no first-order autocorrelation
+{col 5}F(  1,      28) = {res}    12.234
+{txt}{col 12}Prob > F = {res}     0.0016
+
+{com}. xttest3
+{err}command {bf}xttest3{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. search  xttest3
+
+. xttest3
+{err}command {bf}xttest3{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. xttest3
+{err}command {bf}xttest3{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. xttest3
+{err}command {bf}xttest3{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. xttest3
+{err}last estimates not found
+{txt}{search r(301):r(301);}
+
+{com}.  xtserial la size llp nim roe car lta eta gdp inf
+
+{txt}Wooldridge test for autocorrelation in panel data
+H0: no first-order autocorrelation
+{col 5}F(  1,      28) = {res}    12.234
+{txt}{col 12}Prob > F = {res}     0.0016
+
+{com}. xttest3
+{err}last estimates not found
+{txt}{search r(301):r(301);}
+
+{com}. reg la size llp nim roe car lta eta gdp inf
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       319
+{txt}{hline 13}{c +}{hline 34}   F(9, 309)       = {res}     5.49
+{txt}       Model {c |} {res} 1.53686374         9  .170762638   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 9.60761251       309  .031092597   {txt}R-squared       ={res}    0.1379
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1128
+{txt}       Total {c |} {res} 11.1444762       318  .035045523   {txt}Root MSE        =   {res} .17633
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0736515{col 26}{space 2} .0314653{col 37}{space 1}   -2.34{col 46}{space 3}0.020{col 54}{space 4}-.1355649{col 67}{space 3} -.011738
+{txt}{space 9}llp {c |}{col 14}{res}{space 2} .4361368{col 26}{space 2} 2.086065{col 37}{space 1}    0.21{col 46}{space 3}0.835{col 54}{space 4}-3.668552{col 67}{space 3} 4.540826
+{txt}{space 9}nim {c |}{col 14}{res}{space 2}-2.711325{col 26}{space 2} .8147299{col 37}{space 1}   -3.33{col 46}{space 3}0.001{col 54}{space 4}-4.314445{col 67}{space 3}-1.108205
+{txt}{space 9}roe {c |}{col 14}{res}{space 2} .7982574{col 26}{space 2}  .187252{col 37}{space 1}    4.26{col 46}{space 3}0.000{col 54}{space 4} .4298071{col 67}{space 3} 1.166708
+{txt}{space 9}car {c |}{col 14}{res}{space 2}  .319451{col 26}{space 2} .1461279{col 37}{space 1}    2.19{col 46}{space 3}0.030{col 54}{space 4} .0319194{col 67}{space 3} .6069825
+{txt}{space 9}lta {c |}{col 14}{res}{space 2}-.0791033{col 26}{space 2} .0936609{col 37}{space 1}   -0.84{col 46}{space 3}0.399{col 54}{space 4}-.2633971{col 67}{space 3} .1051905
+{txt}{space 9}eta {c |}{col 14}{res}{space 2} .1710007{col 26}{space 2} .4003606{col 37}{space 1}    0.43{col 46}{space 3}0.670{col 54}{space 4}-.6167772{col 67}{space 3} .9587785
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-1.005159{col 26}{space 2} .6604385{col 37}{space 1}   -1.52{col 46}{space 3}0.129{col 54}{space 4}-2.304685{col 67}{space 3} .2943664
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3458171{col 26}{space 2} .2401237{col 37}{space 1}    1.44{col 46}{space 3}0.151{col 54}{space 4}-.1266673{col 67}{space 3} .8183016
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .8295256{col 26}{space 2} .2606924{col 37}{space 1}    3.18{col 46}{space 3}0.002{col 54}{space 4} .3165688{col 67}{space 3} 1.342482
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estimate store pool
+
+. xtgls la size llp nim roe car lta eta gdp inf, corr(ar1) panels(h)
+
+{txt}Cross-sectional time-series FGLS regression
+
+Coefficients:  {res}generalized least squares
+{txt}Panels:        {res}heteroskedastic
+{txt}Correlation:   {res}common AR(1) coefficient for all panels{txt}  ({res}0.4614{txt})
+
+Estimated covariances{col 28}= {res}       29{txt}{col 49}Number of obs{col 67}= {res}       319
+{txt}Estimated autocorrelations{col 28}= {res}        1{txt}{col 49}Number of groups{col 67}= {res}        29
+{txt}Estimated coefficients{col 28}= {res}       10{txt}{col 49}Time periods{col 67}=  {res}       11
+{txt}{col 49}Wald chi2({res}9{txt}){col 67}=  {res}   133.41
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}size {c |}{col 14}{res}{space 2}-.0224204{col 26}{space 2} .0138062{col 37}{space 1}   -1.62{col 46}{space 3}0.104{col 54}{space 4}-.0494799{col 67}{space 3} .0046392
+{txt}{space 9}llp {c |}{col 14}{res}{space 2}-.1569143{col 26}{space 2} .7247346{col 37}{space 1}   -0.22{col 46}{space 3}0.829{col 54}{space 4}-1.577368{col 67}{space 3} 1.263539
+{txt}{space 9}nim {c |}{col 14}{res}{space 2}  -.81215{col 26}{space 2} .2638686{col 37}{space 1}   -3.08{col 46}{space 3}0.002{col 54}{space 4}-1.329323{col 67}{space 3}-.2949771
+{txt}{space 9}roe {c |}{col 14}{res}{space 2}  .264705{col 26}{space 2} .0692529{col 37}{space 1}    3.82{col 46}{space 3}0.000{col 54}{space 4} .1289718{col 67}{space 3} .4004383
+{txt}{space 9}car {c |}{col 14}{res}{space 2} .0787161{col 26}{space 2} .0578369{col 37}{space 1}    1.36{col 46}{space 3}0.174{col 54}{space 4}-.0346421{col 67}{space 3} .1920743
+{txt}{space 9}lta {c |}{col 14}{res}{space 2} -.225063{col 26}{space 2} .0406519{col 37}{space 1}   -5.54{col 46}{space 3}0.000{col 54}{space 4}-.3047392{col 67}{space 3}-.1453867
+{txt}{space 9}eta {c |}{col 14}{res}{space 2}-.2524551{col 26}{space 2} .1696287{col 37}{space 1}   -1.49{col 46}{space 3}0.137{col 54}{space 4}-.5849213{col 67}{space 3}  .080011
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.2729235{col 26}{space 2} .2363843{col 37}{space 1}   -1.15{col 46}{space 3}0.248{col 54}{space 4}-.7362282{col 67}{space 3} .1903812
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .3772646{col 26}{space 2}   .08353{col 37}{space 1}    4.52{col 46}{space 3}0.000{col 54}{space 4} .2135489{col 67}{space 3} .5409804
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .4972913{col 26}{space 2} .1156646{col 37}{space 1}    4.30{col 46}{space 3}0.000{col 54}{space 4} .2705928{col 67}{space 3} .7239898
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. estimate store fgls
+
+. xtabond2 la l.la size llp nim roe car lta eta gdp inf,gmm(l5.car) iv(inf) sm two
+{res}{txt}Favoring space over speed. To switch, type or click on{stata "mata: mata set matafavor speed, perm": mata: mata set matafavor speed, perm}.
+{res}Warning: Two-step estimated covariance matrix of moments is singular.
+{res}  Using a generalized inverse to calculate optimal weighting matrix for two-step estimation.
+{res}  Difference-in-Sargan statistics may be negative.
+
+{txt}Dynamic panel-data estimation, two-step system GMM
+{hline 78}
+Group variable: {res}BANK{txt}{col 49}Number of obs      = {res}      290
+{txt}Time variable : {res}nam{txt}{col 49}Number of groups   = {res}       29
+{txt}Number of instruments = {res}22{col 49}{txt}Obs per group: min = {res}       10
+{txt}F({res}10{txt}, {res}28{txt}){col 15}= {res}    36.45{col 64}{txt}avg = {res}    10.00
+{txt}Prob > F{col 15}={res}     0.000{col 64}{txt}max = {res}       10
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          la{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}la {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}   .21912{col 26}{space 2} .1938752{col 37}{space 1}    1.13{col 46}{space 3}0.268{col 54}{space 4}-.1780154{col 67}{space 3} .6162554
+{txt}{space 12} {c |}
+{space 8}size {c |}{col 14}{res}{space 2}-.1790634{col 26}{space 2} .0573914{col 37}{space 1}   -3.12{col 46}{space 3}0.004{col 54}{space 4}-.2966244{col 67}{space 3}-.0615024
+{txt}{space 9}llp {c |}{col 14}{res}{space 2} 3.618941{col 26}{space 2} 1.374768{col 37}{space 1}    2.63{col 46}{space 3}0.014{col 54}{space 4} .8028556{col 67}{space 3} 6.435026
+{txt}{space 9}nim {c |}{col 14}{res}{space 2} 1.312595{col 26}{space 2} 1.504628{col 37}{space 1}    0.87{col 46}{space 3}0.390{col 54}{space 4}-1.769496{col 67}{space 3} 4.394685
+{txt}{space 9}roe {c |}{col 14}{res}{space 2} 1.212846{col 26}{space 2} .3143138{col 37}{space 1}    3.86{col 46}{space 3}0.001{col 54}{space 4} .5690031{col 67}{space 3} 1.856688
+{txt}{space 9}car {c |}{col 14}{res}{space 2}-.1625967{col 26}{space 2} .3391044{col 37}{space 1}   -0.48{col 46}{space 3}0.635{col 54}{space 4}-.8572205{col 67}{space 3} .5320272
+{txt}{space 9}lta {c |}{col 14}{res}{space 2} -.259049{col 26}{space 2} .1668435{col 37}{space 1}   -1.55{col 46}{space 3}0.132{col 54}{space 4}-.6008125{col 67}{space 3} .0827145
+{txt}{space 9}eta {c |}{col 14}{res}{space 2}-1.207283{col 26}{space 2} .8589087{col 37}{space 1}   -1.41{col 46}{space 3}0.171{col 54}{space 4}-2.966678{col 67}{space 3} .5521111
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.8587032{col 26}{space 2}  .375144{col 37}{space 1}   -2.29{col 46}{space 3}0.030{col 54}{space 4}-1.627151{col 67}{space 3}-.0902556
+{txt}{space 9}inf {c |}{col 14}{res}{space 2} .5006441{col 26}{space 2} .3994429{col 37}{space 1}    1.25{col 46}{space 3}0.220{col 54}{space 4}-.3175777{col 67}{space 3} 1.318866
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.717767{col 26}{space 2} .4867774{col 37}{space 1}    3.53{col 46}{space 3}0.001{col 54}{space 4} .7206493{col 67}{space 3} 2.714886
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+Warning: Uncorrected two-step standard errors are unreliable.
+
+Instruments for first differences equation
+{col 3}Standard
+{com}{col 5}D.(inf)
+{col 3}{txt}GMM-type (missing=0, separate instruments for each period unless collapsed)
+{com}{col 5}L(1/.).L5.car
+{txt}Instruments for levels equation
+{col 3}Standard
+{com}{col 5}_cons
+{col 5}inf
+{col 3}{txt}GMM-type (missing=0, separate instruments for each period unless collapsed)
+{com}{col 5}D.L5.car
+{txt}{hline 78}
+Arellano-Bond test for AR(1) in first differences:{col 52}z = {res} -0.88{txt}  Pr > z = {res} 0.381
+{txt}Arellano-Bond test for AR(2) in first differences:{col 52}z = {res}  0.74{txt}  Pr > z = {res} 0.461
+{txt}{hline 78}
+Sargan test of overid. restrictions: chi2({res}11{txt}){col 49}={res}   3.56{txt}{col 59}Prob > chi2 = {res} 0.981
+{txt}  (Not robust, but not weakened by many instruments.)
+Hansen test of overid. restrictions: chi2({res}11{txt}){col 49}={res}  12.34{txt}{col 59}Prob > chi2 = {res} 0.338
+{txt}  (Robust, but can be weakened by many instruments.)
+
+Difference-in-Hansen tests of exogeneity of instrument subsets:
+{com}  GMM instruments for levels
+{txt}    Hansen test excluding group:{col 38}chi2({res}6{txt}){col 49}={res}   5.77{txt}{col 59}Prob > chi2 = {res} 0.449
+{txt}    Difference (null H = exogenous):{col 38}chi2({res}5{txt}){col 49}={res}   6.57{txt}{col 59}Prob > chi2 = {res} 0.254
+{com}  iv(inf)
+{txt}    Hansen test excluding group:{col 38}chi2({res}10{txt}){col 49}={res}   9.89{txt}{col 59}Prob > chi2 = {res} 0.450
+{txt}    Difference (null H = exogenous):{col 38}chi2({res}1{txt}){col 49}={res}   2.46{txt}{col 59}Prob > chi2 = {res} 0.117
+
+{com}. estimate store gmm
+
+. esttab pool fe re fgls gmm,r2(*0.1**0.05***0.01)
+{err}command {bf}esttab{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. search esttab
+
+. esttab pool fe re fgls gmm,r2(*0.1**0.05***0.01)
+{err}invalid varname
+{txt}{search r(198):r(198);}
+
+{com}. esttab pool fe re fgls gmm,r2 star(*0.1**0.05***0.01)
+{err}unmatched list of significance symbols and levels
+{txt}{search r(198):r(198);}
+
+{com}. esttab pool fe re fgls gmm,r2 star( 0.1 * 0.05 ** 0.01) brackets nogap
+{err}unmatched list of significance symbols and levels
+{txt}{search r(198):r(198);}
+
+{com}. esttab _est_pool _est_fe _est_re _est_fgls _est_gmm, r2 star ( * 0.1 ** 0.05 ** 0.01) brackets nogap
+{err}estimation result _est_pool not found
+{txt}{search r(111):r(111);}
+
+{com}.  esttab pool fe re fgls gmm,r2 star( *0.1 **0.05 ***0.01 ) brackets nogap
+{err}unmatched list of significance symbols and levels
+{txt}{search r(198):r(198);}
+
+{com}.  esttab pool fe re fgls gmm,r2 star(+0.10 *0.1 **0.05 ***0.01 ) brackets nogap
+{err}'*' found where number expected
+{txt}{search r(7):r(7);}
+
+{com}. esttab  pool fe re fgls gmm, r2 star(* 0.1 ** 0.05 *** 0.01) brackets nogap compress
+{res}
+{txt}{hline 75}
+{txt}                 (1)          (2)          (3)          (4)          (5)   
+{txt}                  la           la           la           la           la   
+{txt}{hline 75}
+{txt}size      {res}   -0.0737**    -0.0168      -0.0420      -0.0224       -0.179***{txt}
+          {res} {ralign 9:{txt:[}-2.34{txt:]}}    {ralign 9:{txt:[}-0.23{txt:]}}    {ralign 9:{txt:[}-0.98{txt:]}}    {ralign 9:{txt:[}-1.62{txt:]}}    {ralign 9:{txt:[}-3.12{txt:]}}   {txt}
+{txt}llp       {res}     0.436       -0.197       -0.111       -0.157        3.619** {txt}
+          {res} {ralign 9:{txt:[}0.21{txt:]}}    {ralign 9:{txt:[}-0.09{txt:]}}    {ralign 9:{txt:[}-0.05{txt:]}}    {ralign 9:{txt:[}-0.22{txt:]}}    {ralign 9:{txt:[}2.63{txt:]}}   {txt}
+{txt}nim       {res}    -2.711***    -3.124***    -2.994***    -0.812***     1.313   {txt}
+          {res} {ralign 9:{txt:[}-3.33{txt:]}}    {ralign 9:{txt:[}-3.18{txt:]}}    {ralign 9:{txt:[}-3.37{txt:]}}    {ralign 9:{txt:[}-3.08{txt:]}}    {ralign 9:{txt:[}0.87{txt:]}}   {txt}
+{txt}roe       {res}     0.798***     0.628***     0.675***     0.265***     1.213***{txt}
+          {res} {ralign 9:{txt:[}4.26{txt:]}}    {ralign 9:{txt:[}3.39{txt:]}}    {ralign 9:{txt:[}3.83{txt:]}}    {ralign 9:{txt:[}3.82{txt:]}}    {ralign 9:{txt:[}3.86{txt:]}}   {txt}
+{txt}car       {res}     0.319**     0.0919        0.143       0.0787       -0.163   {txt}
+          {res} {ralign 9:{txt:[}2.19{txt:]}}    {ralign 9:{txt:[}0.69{txt:]}}    {ralign 9:{txt:[}1.09{txt:]}}    {ralign 9:{txt:[}1.36{txt:]}}    {ralign 9:{txt:[}-0.48{txt:]}}   {txt}
+{txt}lta       {res}   -0.0791       -0.251**     -0.188*      -0.225***    -0.259   {txt}
+          {res} {ralign 9:{txt:[}-0.84{txt:]}}    {ralign 9:{txt:[}-2.07{txt:]}}    {ralign 9:{txt:[}-1.75{txt:]}}    {ralign 9:{txt:[}-5.54{txt:]}}    {ralign 9:{txt:[}-1.55{txt:]}}   {txt}
+{txt}eta       {res}     0.171        0.818*       0.630       -0.252       -1.207   {txt}
+          {res} {ralign 9:{txt:[}0.43{txt:]}}    {ralign 9:{txt:[}1.86{txt:]}}    {ralign 9:{txt:[}1.55{txt:]}}    {ralign 9:{txt:[}-1.49{txt:]}}    {ralign 9:{txt:[}-1.41{txt:]}}   {txt}
